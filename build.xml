@@ -1,0 +1,93 @@
+<project name="JavaWifi" default="all" basedir=".">
+
+<path id="cc.cp">
+    <pathelement location="ant-dependencies/cpptasks-1.0b5/target/lib/cpptasks.jar"/>
+</path>
+<taskdef name="cc" classname="net.sf.antcontrib.cpptasks.CCTask" loaderref="cc.loaderRef" classpathref="cc.cp"/>
+<typedef name="linker" classname="net.sf.antcontrib.cpptasks.LinkerDef" loaderref="cc.loaderRef" classpathref="cc.cp"/>
+
+    <description>
+    Ant build script for the JavaWiFi library and Linux native library.
+    </description>
+	
+    <property name="javasrc" location="java/src"/>
+    <property name="javabin" location="java/bin"/>
+    <property name="linuxsrc" location="linux"/>
+	<property name="linuxobj" location="linux/obj"/>
+    <property name="linuxbin" location="linux/bin"/>
+    <property name="testsrc" location="test/src"/>
+    <property name="testbin" location="test/bin"/>
+    <property name="testreport" location="test/report"/>
+    <property name="dist"  location="dist"/>
+
+    <path id="junit.test">
+        <pathelement location="${dist}/JavaWiFi.jar" />
+        <pathelement location="test/lib/junit-4.10.jar" />
+        <pathelement location="${testbin}" />
+        <pathelement location="${javabin}" />
+    </path>
+	<target name="all" depends="clean, nativeLibrary, jar">
+	
+	</target>
+
+    <target name="prepare">
+        <ant antfile="ant-dependencies/cpptasks-1.0b5/build.xml" inheritAll="false" />
+    </target>
+	
+    <target name="nativeLibrary" depends="prepare">
+    	<mkdir dir="${linuxbin}"/>
+    	<mkdir dir="${linuxobj}"/>
+    	<cc name="g++" outtype="shared" subsystem="other" outfile="${linuxbin}/JavaWiFi" objdir="${linuxobj}">
+			<fileset dir="${linuxsrc}" includes="*.cpp"/>
+    		<includepath path="/usr/lib/jvm/java-6-openjdk/include"></includepath>
+    		<includepath path="/usr/lib/jvm/java-6-openjdk/include/linux"></includepath>
+    		<compilerarg value="-g3"/>
+    		<compilerarg value="-O0"/>
+			<compilerarg value="-Wall"/>
+			<compilerarg value="-fPIC"/>
+		</cc>
+    	<copy file="${linuxbin}/libJavaWiFi.so" todir="${dist}"/>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="${javabin}"/>
+		<javac srcdir="${javasrc}" destdir="${javabin}" includeantruntime="false" debug="true" />
+	</target>
+	
+	<target name="jar" depends="compile">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/JavaWiFi.jar" basedir="${javabin}"/>
+	</target>
+
+    <target name="test" depends="nativeLibrary, jar, test-compile">
+        <mkdir dir="${testreport}"/>
+        <junit printsummary="yes" haltonfailure="yes">
+            <sysproperty key="java.library.path" value="${dist}"/>
+            <formatter type="xml"/>
+            <classpath refid="junit.test"/>
+            <batchtest fork="yes" todir="${testreport}">
+                <fileset dir="${testsrc}">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="test-compile" depends="jar">
+        <mkdir dir="${testbin}"/>
+        <javac srcdir="${testsrc}" destdir="${testbin}" includeantruntime="false" debug="true">
+            <classpath refid="junit.test"/>
+        </javac>
+    </target>
+
+
+  <target name="clean"
+        description="clean up" >
+  	<delete dir="${linuxobj}"/>
+  	<delete dir="${linuxbin}"/>
+  	<delete dir="${javabin}"/>
+  	<delete dir="${testbin}"/>
+    <delete dir="${testreport}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
