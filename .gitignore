@@ -1,0 +1,29 @@
+# Compiled Source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.slo
+*.lo
+
+
+# Packages #
+############
+*.jar
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Eclipse Settings #
+####################
+.classpath
+.project
+.cproject
+.classpath
