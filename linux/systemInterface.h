@@ -26,6 +26,9 @@ JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeIn
 JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetSSID
   (JNIEnv *, jobject, jstring);
 
+JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetHardwareAddress
+  (JNIEnv * env, jobject obj, jstring interfaceName);
+
 #ifdef __cplusplus
 }
 #endif

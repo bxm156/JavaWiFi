@@ -63,6 +63,6 @@ std::vector<std::string> jw_enumate_interfaces(const char *proc_net);
 int iw_sockets_open(void);
 inline int iw_get_ext(int skfd, const char *ifname, int request, struct iwreq pwrq);
 std::string jw_get_essid(int skfd, const char *interfaceName);
-
+std::string jw_get_hardware_address(int skfd, const char *interfaceName);
 
 #endif /* JWLIB_H_ */

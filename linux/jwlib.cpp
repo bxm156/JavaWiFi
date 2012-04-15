@@ -122,7 +122,7 @@ std::string jw_get_essid(int skfd, const char *interfaceName) {
 
 	struct iwreq		wrq;
 
-	/* Get wireless name */
+	  /* Get wireless name */
 	  if(iw_get_ext(skfd, interfaceName, SIOCGIWNAME, &wrq) < 0) {
 	    /* If no wireless name : no wireless extensions */
 	    return NULL;
@@ -139,3 +139,21 @@ std::string jw_get_essid(int skfd, const char *interfaceName) {
 	}
 }
 
+std::string jw_get_hardware_address(int skfd, const char *interfaceName) {
+	struct ifreq req;
+
+	 strncpy(req.ifr_ifrn.ifrn_name, interfaceName, IFNAMSIZ);
+
+	if(ioctl(skfd,SIOCGIFHWADDR,&req) >= 0) {
+		char buffer[18];
+		sprintf(buffer,"%.2x:%.2x:%.2x:%.2x:%.2x:%.2x",
+		         (unsigned char)req.ifr_ifru.ifru_hwaddr.sa_data[0],
+		         (unsigned char)req.ifr_ifru.ifru_hwaddr.sa_data[1],
+		         (unsigned char)req.ifr_ifru.ifru_hwaddr.sa_data[2],
+		         (unsigned char)req.ifr_ifru.ifru_hwaddr.sa_data[3],
+		         (unsigned char)req.ifr_ifru.ifru_hwaddr.sa_data[4],
+		         (unsigned char)req.ifr_ifru.ifru_hwaddr.sa_data[5]);
+		return buffer;
+	}
+	return NULL;
+ }

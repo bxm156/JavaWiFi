@@ -11,6 +11,7 @@ public class SystemInterface {
 	private native boolean nativeInterfaceExists(String interfaceName);
 	private native boolean nativeInterfaceIsWiFi(String interfaceName);
 	private native String nativeInterfaceGetSSID(String interfaceName);
+	private native String nativeInterfaceGetHardwareAddress(String interfaceName);
 	
 	public SystemInterface(String interfaceName) {
 		interfaceName_ = interfaceName;
@@ -35,6 +36,10 @@ public class SystemInterface {
 			return essid;
 		}
 		return "I detected a null";
+	}
+	
+	public String getHardwareAddress() {
+		return nativeInterfaceGetHardwareAddress(interfaceName_);
 	}
 	
 }

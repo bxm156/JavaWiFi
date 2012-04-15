@@ -20,7 +20,7 @@ public class SystemInterfaceTest {
 		assertTrue(i4.exists());
 		assertTrue(i4.isWiFi());
 		assertEquals("CaseGuest",i4.getSSID());
-		System.out.println("Here is the SSID: \"" + i4.getSSID() + "\"");
+		assertEquals("f4:6d:04:b1:8e:b1",i4.getHardwareAddress());
 	}
 
 }
