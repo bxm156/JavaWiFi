@@ -19,8 +19,8 @@ public class SystemInterfaceTest {
 		SystemInterface i4 = new SystemInterface("ra0");
 		assertTrue(i4.exists());
 		assertTrue(i4.isWiFi());
-		
-		
+		assertEquals("CaseGuest",i4.getSSID());
+		System.out.println("Here is the SSID: \"" + i4.getSSID() + "\"");
 	}
 
 }

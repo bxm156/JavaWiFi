@@ -20,7 +20,7 @@
 ehthumbs.db
 Icon?
 Thumbs.db
-
+*~
 # Eclipse Settings #
 ####################
 .classpath

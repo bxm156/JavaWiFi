@@ -66,5 +66,25 @@ JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeIn
 		return isWiFi;
 }
 
+JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetSSID
+  (JNIEnv * env, jobject obj, jstring interfaceName) {
+
+	const char *iName = env->GetStringUTFChars(interfaceName, NULL);
+	if(iName == NULL) {
+		return NULL;
+	}
+	int skfd;
+	if((skfd = iw_sockets_open()) < 0) {
+		return NULL;
+	}
+
+	std::string essid = jw_get_essid(skfd,iName);
+
+	env->ReleaseStringUTFChars(interfaceName,iName);
+
+	jstring result = env->NewStringUTF(essid.c_str());
+	return result;
+}
+
 
 

@@ -8,8 +8,6 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
 #include <vector>
 #include <string.h>
 #include <string>
@@ -67,3 +65,77 @@ int jw_parse_proc_interface(char *result, char *buffer, int bufferSize) {
 	result[end-buffer] = '\0';
 	return 0;
 }
+
+/*
+ * Open a socket.
+ * Depending on the protocol present, open the right socket. The socket
+ * will allow us to talk to the driver.
+ */
+int
+iw_sockets_open(void)
+{
+  static const int families[] = {
+    AF_INET, AF_IPX, AF_AX25, AF_APPLETALK
+  };
+  unsigned int	i;
+  int		sock;
+
+  /*
+   * Now pick any (exisiting) useful socket family for generic queries
+   * Note : don't open all the socket, only returns when one matches,
+   * all protocols might not be valid.
+   * Workaround by Jim Kaba <jkaba@sarnoff.com>
+   * Note : in 99% of the case, we will just open the inet_sock.
+   * The remaining 1% case are not fully correct...
+   */
+
+  /* Try all families we support */
+  for(i = 0; i < sizeof(families)/sizeof(int); ++i)
+    {
+      /* Try to open the socket, if success returns it */
+      sock = socket(families[i], SOCK_DGRAM, 0);
+      if(sock >= 0)
+	return sock;
+  }
+
+  return -1;
+}
+
+
+/*------------------------------------------------------------------*/
+/*
+ * Wrapper to extract some Wireless Parameter out of the driver
+ */
+inline int iw_get_ext(int			skfd,		/* Socket to the kernel */
+	   const char *		ifname,		/* Device name */
+	   int			request,	/* WE ID */
+	   struct iwreq *	pwrq)		/* Fixed part of the request */
+{
+  /* Set device name */
+  strncpy(pwrq->ifr_name, ifname, IFNAMSIZ);
+  /* Do the request */
+  return(ioctl(skfd, request, pwrq));
+}
+
+
+std::string jw_get_essid(int skfd, const char *interfaceName) {
+
+	struct iwreq		wrq;
+
+	/* Get wireless name */
+	  if(iw_get_ext(skfd, interfaceName, SIOCGIWNAME, &wrq) < 0) {
+	    /* If no wireless name : no wireless extensions */
+	    return NULL;
+	  }
+
+	  char buffer[IW_ESSID_MAX_SIZE + 1];
+	  wrq.u.essid.pointer = (caddr_t) buffer;
+	  wrq.u.essid.length = IW_ESSID_MAX_SIZE + 1;
+	  wrq.u.essid.flags = 0;
+	  if(iw_get_ext(skfd, interfaceName, SIOCGIWESSID, &wrq) >= 0) {
+		 return buffer;
+	  } else {
+		  return NULL;
+	}
+}
+

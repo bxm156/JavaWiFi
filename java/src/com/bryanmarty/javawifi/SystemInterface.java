@@ -5,12 +5,12 @@ public class SystemInterface {
 	static {
 		System.loadLibrary("JavaWiFi");
 	}
-
 	private static String interfaceName_;
 	
-	
+	//Native Methods
 	private native boolean nativeInterfaceExists(String interfaceName);
 	private native boolean nativeInterfaceIsWiFi(String interfaceName);
+	private native String nativeInterfaceGetSSID(String interfaceName);
 	
 	public SystemInterface(String interfaceName) {
 		interfaceName_ = interfaceName;
@@ -27,6 +27,14 @@ public class SystemInterface {
 	
 	public boolean isWiFi() {
 		return nativeInterfaceIsWiFi(interfaceName_);
+	}
+	
+	public String getSSID() {
+		String essid = nativeInterfaceGetSSID(interfaceName_);
+		if(essid != null) {
+			return essid;
+		}
+		return "I detected a null";
 	}
 	
 }
