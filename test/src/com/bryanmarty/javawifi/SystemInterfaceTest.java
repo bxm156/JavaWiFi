@@ -21,6 +21,7 @@ public class SystemInterfaceTest {
 		assertTrue(i4.isWiFi());
 		assertEquals("CaseGuest",i4.getSSID());
 		assertEquals("f4:6d:04:b1:8e:b1",i4.getHardwareAddress());
+		System.out.println("Freq:" + i4.getFrequency());
 	}
 
 }

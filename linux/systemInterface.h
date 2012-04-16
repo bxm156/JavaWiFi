@@ -28,7 +28,8 @@ JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInt
 
 JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetHardwareAddress
   (JNIEnv * env, jobject obj, jstring interfaceName);
-
+JNIEXPORT jfloat JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetFrequency
+  (JNIEnv * env, jobject obj, jstring interfaceName);
 #ifdef __cplusplus
 }
 #endif

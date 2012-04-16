@@ -14,6 +14,9 @@ int main(int argc, char *argv[]) {
 		std::string name = results[i];
 		printf("%s\n",name.c_str());
 	}
+	int skfd = iw_sockets_open();
+	float freq = jw_get_frequency(skfd,"ra0");
+	printf("%f",freq);
 	return 0;
 }
 

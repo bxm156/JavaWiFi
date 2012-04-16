@@ -109,4 +109,23 @@ JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInt
 	return result;
 }
 
+JNIEXPORT jfloat JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetFrequency
+  (JNIEnv * env, jobject obj, jstring interfaceName) {
+	const char *iName = env->GetStringUTFChars(interfaceName, NULL);
+	if(iName == NULL) {
+		return NULL;
+	}
+	int skfd;
+	if((skfd = iw_sockets_open()) < 0) {
+		return NULL;
+	}
 
+	float result = jw_get_frequency(skfd,iName);
+
+	close(skfd);
+
+	env->ReleaseStringUTFChars(interfaceName,iName);
+
+	return result;
+
+}

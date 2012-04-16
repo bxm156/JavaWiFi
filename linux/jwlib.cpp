@@ -24,8 +24,6 @@ std::vector<std::string> jw_enumate_interfaces(const char *proc_net) {
 		fgets(buffer, sizeof(buffer), pFile);
 		fgets(buffer, sizeof(buffer), pFile);
 
-		//char interface_array[][IFNAMSIZ];
-
 		while(fgets(buffer,sizeof(buffer),pFile)) {
 			//Skip blank lines
 			if(buffer[0] == '\0' || buffer[1] == '\0') {
@@ -157,3 +155,12 @@ std::string jw_get_hardware_address(int skfd, const char *interfaceName) {
 	}
 	return NULL;
  }
+
+float jw_get_frequency(int skfd, const char *interfaceName) {
+	struct iwreq req;
+
+	if(iw_get_ext(skfd,interfaceName,SIOCGIWFREQ,&req) >= 0) {
+		return ((double)  req.u.freq.m) * pow(10, req.u.freq.e);
+	}
+	return 0;
+}

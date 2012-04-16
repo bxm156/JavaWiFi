@@ -64,5 +64,6 @@ int iw_sockets_open(void);
 inline int iw_get_ext(int skfd, const char *ifname, int request, struct iwreq pwrq);
 std::string jw_get_essid(int skfd, const char *interfaceName);
 std::string jw_get_hardware_address(int skfd, const char *interfaceName);
+float jw_get_frequency(int skfd, const char *interfaceName);
 
 #endif /* JWLIB_H_ */
