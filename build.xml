@@ -9,11 +9,11 @@
     <description>
     Ant build script for the JavaWiFi library and Linux native library.
     </description>
-	
+    <property name="javajvm" location="/usr/lib/jvm/java-6-openjdk"/>	
     <property name="javasrc" location="java/src"/>
     <property name="javabin" location="java/bin"/>
     <property name="linuxsrc" location="linux"/>
-	<property name="linuxobj" location="linux/obj"/>
+    <property name="linuxobj" location="linux/obj"/>
     <property name="linuxbin" location="linux/bin"/>
     <property name="testsrc" location="test/src"/>
     <property name="testbin" location="test/bin"/>
@@ -39,8 +39,8 @@
     	<mkdir dir="${linuxobj}"/>
     	<cc name="g++" outtype="shared" subsystem="other" outfile="${linuxbin}/JavaWiFi" objdir="${linuxobj}">
 			<fileset dir="${linuxsrc}" includes="*.cpp"/>
-    		<includepath path="/usr/lib/jvm/java-6-openjdk/include"></includepath>
-    		<includepath path="/usr/lib/jvm/java-6-openjdk/include/linux"></includepath>
+    		<includepath path="${javajvm}/include"></includepath>
+    		<includepath path="${javajvm}/include/linux"></includepath>
     		<compilerarg value="-g3"/>
     		<compilerarg value="-O0"/>
 			<compilerarg value="-Wall"/>
