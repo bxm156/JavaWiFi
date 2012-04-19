@@ -59,9 +59,9 @@
 		<jar jarfile="${dist}/JavaWiFi.jar" basedir="${javabin}"/>
 	</target>
 
-    <target name="test" depends="nativeLibrary, jar, test-compile">
+    <target name="runtests" depends="nativeLibrary, jar, test-compile">
         <mkdir dir="${testreport}"/>
-        <junit printsummary="yes" haltonfailure="yes">
+        <junit failureproperty="junit.failure">
             <sysproperty key="java.library.path" value="${dist}"/>
             <formatter type="xml"/>
             <classpath refid="junit.test"/>
@@ -70,13 +70,18 @@
                     <include name="**/*Test*.java"/>
                 </fileset>
             </batchtest>
+             <formatter type="brief" usefile="false"/>
         </junit>
-        <junitreport todir="${testreport}">
+    </target>
+
+    <target name="test" depends="runtests">
+    <junitreport todir="${testreport}">
             <fileset dir="${testreport}">
                  <include name="TEST-*.xml"/>
             </fileset>
             <report format="frames" todir="${testreport}/html"/>
         </junitreport>
+        <fail if="junit.failure" message="Test(s) failed. Please view the reports."/>
     </target>
 
     <target name="test-compile" depends="jar">
