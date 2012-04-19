@@ -23,6 +23,7 @@ public class SystemInterfaceTest {
 		assertEquals("f4:6d:04:b1:8e:b1",i4.getHardwareAddress());
 		System.out.println("Freq:" + i4.getFrequency());
 		assertEquals("RT2870STA",i4.getNickname());
+		System.out.println("BitRate:" + i4.getBitRate());
 	}
 
 }

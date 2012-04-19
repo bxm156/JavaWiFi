@@ -152,3 +152,25 @@ JNIEXPORT jfloat JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInte
 	return result;
 
 }
+
+JNIEXPORT jint JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetBitRate
+  (JNIEnv * env, jobject obj, jstring interfaceName) {
+	const char *iName = env->GetStringUTFChars(interfaceName, NULL);
+	if(iName == NULL) {
+		return NULL;
+	}
+
+	int skfd;
+	if((skfd = iw_sockets_open()) < 0) {
+		return NULL;
+	}
+
+	int result = jw_get_bit_rate(skfd,iName);
+
+	close(skfd);
+
+	env->ReleaseStringUTFChars(interfaceName,iName);
+
+	return result;
+
+}

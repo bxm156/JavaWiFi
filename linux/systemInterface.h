@@ -31,6 +31,8 @@ JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInt
   (JNIEnv * env, jobject obj, jstring interfaceName);
 JNIEXPORT jfloat JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetFrequency
   (JNIEnv * env, jobject obj, jstring interfaceName);
+JNIEXPORT jint JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetBitRate
+  (JNIEnv * env, jobject obj, jstring interfaceName);
 #ifdef __cplusplus
 }
 #endif

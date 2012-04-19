@@ -154,6 +154,16 @@ std::string jw_get_nickname(int skfd, const char *interfaceName) {
 	return NULL;
 }
 
+int jw_get_bit_rate(int skfd, const char *interfaceName) {
+
+	struct iwreq wrq;
+
+	if(iw_get_ext(skfd, interfaceName, SIOCGIWRATE, &wrq) >= 0) {
+		return wrq.u.bitrate.value;
+	}
+	return -1;
+}
+
 std::string jw_get_hardware_address(int skfd, const char *interfaceName) {
 	struct ifreq req;
 

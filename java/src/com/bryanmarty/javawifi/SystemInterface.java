@@ -14,6 +14,7 @@ public class SystemInterface {
 	private native String nativeInterfaceGetNickname(String interfaceName);
 	private native String nativeInterfaceGetHardwareAddress(String interfaceName);
 	private native float nativeInterfaceGetFrequency(String interfaceName);
+	private native int nativeInterfaceGetBitRate(String interfaceName);
 	
 	public SystemInterface(String interfaceName) {
 		interfaceName_ = interfaceName;
@@ -46,6 +47,10 @@ public class SystemInterface {
 	
 	public float getFrequency() {
 		return nativeInterfaceGetFrequency(interfaceName_);
+	}
+	
+	public int getBitRate() {
+		return nativeInterfaceGetBitRate(interfaceName_);
 	}
 	
 }

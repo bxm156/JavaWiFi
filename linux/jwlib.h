@@ -66,5 +66,6 @@ std::string jw_get_essid(int skfd, const char *interfaceName);
 std::string jw_get_nickname(int skfd, const char *interfaceName);
 std::string jw_get_hardware_address(int skfd, const char *interfaceName);
 float jw_get_frequency(int skfd, const char *interfaceName);
+int jw_get_bit_rate(int skfd, const char *interfaceName);
 
 #endif /* JWLIB_H_ */
