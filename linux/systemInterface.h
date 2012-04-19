@@ -23,16 +23,46 @@ JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeIn
 JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceIsWiFi
   (JNIEnv *, jobject, jstring);
 
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetSSID
+ * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ */
 JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetSSID
   (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetNickname
+ * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ */
 JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetNickname
-(JNIEnv *, jobject, jstring);
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetHardwareAddress
+ * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ */
 JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetHardwareAddress
-  (JNIEnv * env, jobject obj, jstring interfaceName);
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetFrequency
+ * Signature: (Ljava/lang/String;)F
+ */
 JNIEXPORT jfloat JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetFrequency
-  (JNIEnv * env, jobject obj, jstring interfaceName);
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetBitRate
+ * Signature: (Ljava/lang/String;)I
+ */
 JNIEXPORT jint JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetBitRate
-  (JNIEnv * env, jobject obj, jstring interfaceName);
+  (JNIEnv *, jobject, jstring);
+
 #ifdef __cplusplus
 }
 #endif
