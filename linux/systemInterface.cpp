@@ -84,6 +84,29 @@ JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInt
 
 	env->ReleaseStringUTFChars(interfaceName,iName);
 
+
+	jstring result = env->NewStringUTF(essid.c_str());
+	return result;
+}
+
+JNIEXPORT jstring JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetNickname
+  (JNIEnv * env, jobject obj, jstring interfaceName) {
+
+	const char *iName = env->GetStringUTFChars(interfaceName, NULL);
+	if(iName == NULL) {
+		return NULL;
+	}
+	int skfd;
+	if((skfd = iw_sockets_open()) < 0) {
+		return NULL;
+	}
+
+	std::string essid = jw_get_nickname(skfd,iName);
+
+	close(skfd);
+
+	env->ReleaseStringUTFChars(interfaceName,iName);
+
 	jstring result = env->NewStringUTF(essid.c_str());
 	return result;
 }

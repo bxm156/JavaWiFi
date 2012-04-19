@@ -11,6 +11,7 @@ public class SystemInterface {
 	private native boolean nativeInterfaceExists(String interfaceName);
 	private native boolean nativeInterfaceIsWiFi(String interfaceName);
 	private native String nativeInterfaceGetSSID(String interfaceName);
+	private native String nativeInterfaceGetNickname(String interfaceName);
 	private native String nativeInterfaceGetHardwareAddress(String interfaceName);
 	private native float nativeInterfaceGetFrequency(String interfaceName);
 	
@@ -33,6 +34,10 @@ public class SystemInterface {
 	
 	public String getSSID() {
 		return nativeInterfaceGetSSID(interfaceName_);
+	}
+	
+	public String getNickname() {
+		return nativeInterfaceGetNickname(interfaceName_);
 	}
 	
 	public String getHardwareAddress() {

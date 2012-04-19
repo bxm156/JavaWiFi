@@ -137,6 +137,23 @@ std::string jw_get_essid(int skfd, const char *interfaceName) {
 	}
 }
 
+std::string jw_get_nickname(int skfd, const char *interfaceName) {
+	struct iwreq	wrq;
+
+	char buffer[IW_ESSID_MAX_SIZE + 1];
+	wrq.u.essid.pointer = buffer;
+	wrq.u.essid.length = IW_ESSID_MAX_SIZE + 1;
+	wrq.u.essid.flags = 0;
+
+	if(iw_get_ext(skfd, interfaceName, SIOCGIWNICKN, &wrq) >= 0) {
+		//If a nickname exists
+		if(wrq.u.data.length > 1) {
+			return buffer;
+		}
+	}
+	return NULL;
+}
+
 std::string jw_get_hardware_address(int skfd, const char *interfaceName) {
 	struct ifreq req;
 
