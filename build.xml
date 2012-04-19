@@ -71,6 +71,12 @@
                 </fileset>
             </batchtest>
         </junit>
+        <junitreport todir="${testreport}">
+            <fileset dir="${testreport}">
+                 <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${testreport}/html"/>
+        </junitreport>
     </target>
 
     <target name="test-compile" depends="jar">
