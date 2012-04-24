@@ -1,5 +1,7 @@
 package com.bryanmarty.javawifi;
 
+import sun.org.mozilla.javascript.NativeArray;
+
 public class SystemInterface {
 	
 	static {
@@ -8,6 +10,7 @@ public class SystemInterface {
 	private static String interfaceName_;
 	
 	//Native Methods
+	private static native String[] nativeInterfaceGetAllInterfaceNames(boolean includeWiFi);
 	private native boolean nativeInterfaceExists(String interfaceName);
 	private native boolean nativeInterfaceIsWiFi(String interfaceName);
 	private native String nativeInterfaceGetSSID(String interfaceName);
@@ -18,6 +21,14 @@ public class SystemInterface {
 	
 	public SystemInterface(String interfaceName) {
 		interfaceName_ = interfaceName;
+	}
+	
+	public static String[] getAllInterfaceNames() {
+		return nativeInterfaceGetAllInterfaceNames(true);
+	}
+	
+	public static String[] getAllInterfaceNames(boolean includeWiFi) {
+		return nativeInterfaceGetAllInterfaceNames(includeWiFi);
 	}
 	
 	@Override

@@ -69,6 +69,8 @@ int jw_parse_proc_interface(char *result, char *buffer, int bufferSize) {
  * Depending on the protocol present, open the right socket. The socket
  * will allow us to talk to the driver.
  */
+
+
 int
 iw_sockets_open(void)
 {

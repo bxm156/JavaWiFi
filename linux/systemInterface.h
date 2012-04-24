@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetAllInterfaceNames
+ * Signature: (Z)[Ljava/lang/String;
+ */
+JNIEXPORT jobjectArray JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetAllInterfaceNames
+  (JNIEnv *, jclass, jboolean);
+
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
  * Method:    nativeInterfaceExists
  * Signature: (Ljava/lang/String;)Z
  */

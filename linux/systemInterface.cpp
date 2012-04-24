@@ -10,7 +10,10 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/ioctl.h>
+#include <set>
+#include <algorithm>
 #include "string.h"
+
 /*
  * Class:     com_bryanmarty_javawifi_SystemInterface
  * Method:    nativeInterfaceExists
@@ -37,6 +40,41 @@ JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeIn
 	env->ReleaseStringUTFChars(interfaceName,iName);
 
 	return exists;
+}
+
+JNIEXPORT jobjectArray JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetAllInterfaceNames
+  (JNIEnv * env, jclass obj, jboolean includeWiFi) {
+
+
+	std::vector<std::string> allInterfaces = jw_enumate_interfaces(PROC_NET_DEV);
+
+
+	if(!includeWiFi) {
+		std::vector<std::string> allWiFiInterfaces = jw_enumate_interfaces(PROC_NET_WIRELESS);
+
+		std::set<std::string> set_allInterfaces(allInterfaces.begin(), allInterfaces.end());
+		std::set<std::string> set_allWiFiInterfaces(allWiFiInterfaces.begin(),allWiFiInterfaces.end());
+
+		std::vector<std::string> difference;
+
+		std::set_difference(set_allInterfaces.begin(),set_allInterfaces.end(),
+				set_allWiFiInterfaces.begin(), set_allWiFiInterfaces.end(),
+				std::back_inserter(difference));
+		allInterfaces = difference;
+	}
+
+	jobjectArray results;
+
+	results = (jobjectArray)	env->NewObjectArray(allInterfaces.size(),
+								env->FindClass("java/lang/String"),
+								env->NewStringUTF(""));
+
+	for(unsigned int i = 0; i < allInterfaces.size(); i++ ) {
+		env->SetObjectArrayElement(results,i,env->NewStringUTF(allInterfaces[i].c_str()));
+	}
+
+	return results;
+
 }
 
 /*
