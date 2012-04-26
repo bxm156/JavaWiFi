@@ -1,7 +1,5 @@
 package com.bryanmarty.javawifi;
 
-import sun.org.mozilla.javascript.NativeArray;
-
 public class SystemInterface {
 	
 	static {
@@ -12,7 +10,8 @@ public class SystemInterface {
 	private static String interfaceName_;
 	
 	//Native Methods
-	private static native String[] nativeInterfaceGetAllInterfaceNames(boolean includeWiFi);
+	private static native String[] nativeInterfaceGetAllInterfaceNames();
+	private static native String[] nativeInterfaceGetAllWiFiInterfaceNames();
 	private native boolean nativeInterfaceExists(String interfaceName);
 	private native boolean nativeInterfaceIsWiFi(String interfaceName);
 	private native String nativeInterfaceGetSSID(String interfaceName);
@@ -33,12 +32,25 @@ public class SystemInterface {
 		interfaceName_ = interfaceName;
 	}
 	
+	/**
+	 * Gets the names of all interfaces known to the system.
+	 *
+	 * @return String[] of all interface names
+	 */
 	public static String[] getAllInterfaceNames() {
-		return nativeInterfaceGetAllInterfaceNames(true);
+		return nativeInterfaceGetAllInterfaceNames();
 	}
 	
-	public static String[] getAllInterfaceNames(boolean includeWiFi) {
-		return nativeInterfaceGetAllInterfaceNames(includeWiFi);
+	/**
+	 * Gets the names all WiFi interfaces known to the system.
+	 *
+	 * @return String[] of all WiFi interface names
+	 */
+	/*TODO: Sometimes interfaces do not show in /proc/dev/wireless unless they are
+	 * connected. This a problem that needs to be handled.
+	 */
+	public static String[] getAllWiFiInterfaceNames() {
+		return nativeInterfaceGetAllWiFiInterfaceNames();
 	}
 	
 	@Override

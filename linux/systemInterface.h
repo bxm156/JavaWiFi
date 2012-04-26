@@ -10,10 +10,18 @@ extern "C" {
 /*
  * Class:     com_bryanmarty_javawifi_SystemInterface
  * Method:    nativeInterfaceGetAllInterfaceNames
- * Signature: (Z)[Ljava/lang/String;
+ * Signature: ()[Ljava/lang/String;
  */
 JNIEXPORT jobjectArray JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetAllInterfaceNames
-  (JNIEnv *, jclass, jboolean);
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceGetAllWiFiInterfaceNames
+ * Signature: ()[Ljava/lang/String;
+ */
+JNIEXPORT jobjectArray JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetAllWiFiInterfaceNames
+  (JNIEnv *, jclass);
 
 /*
  * Class:     com_bryanmarty_javawifi_SystemInterface

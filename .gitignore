@@ -27,3 +27,8 @@ Thumbs.db
 .project
 .cproject
 .classpath
+
+# Directories #
+###############
+linux/bin
+linux/obj

@@ -7,7 +7,7 @@ import org.junit.Test;
 public class SystemInterfaceTest {
 
 	@Test
-	public void test() {
+	public void test() throws NonexistantSystemInterface, InvalidSystemInterface {
 		SystemInterface i1 = new SystemInterface("eth0");
 		assertTrue(i1.exists());
 		assertFalse(i1.isWiFi());
@@ -29,8 +29,8 @@ public class SystemInterfaceTest {
 		for(String s : SystemInterface.getAllInterfaceNames()) {
 			System.out.println(s);
 		}
-		System.out.println("Exclude WiFi");
-		for(String s : SystemInterface.getAllInterfaceNames(false)) {
+		System.out.println("WiFi");
+		for(String s : SystemInterface.getAllWiFiInterfaceNames()) {
 			System.out.println(s);
 		}
 	}
