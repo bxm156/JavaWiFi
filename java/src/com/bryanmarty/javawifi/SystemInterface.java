@@ -1,5 +1,10 @@
 package com.bryanmarty.javawifi;
 
+import java.util.Hashtable;
+
+import com.bryanmarty.javawifi.exceptions.InvalidSystemInterface;
+import com.bryanmarty.javawifi.exceptions.NonexistantSystemInterface;
+
 public class SystemInterface {
 	
 	static {
@@ -7,7 +12,8 @@ public class SystemInterface {
 	}
 	
 	/** Holds the name of the local network interface this object is associated with */
-	private static String interfaceName_;
+	protected String interfaceName_;
+	private static Hashtable<String, ManagedSystemInterface> managedSystemInterfaces = new Hashtable<String,ManagedSystemInterface>();
 	
 	//Native Methods
 	private static native String[] nativeInterfaceGetAllInterfaceNames();
@@ -19,6 +25,7 @@ public class SystemInterface {
 	private native String nativeInterfaceGetHardwareAddress(String interfaceName);
 	private native float nativeInterfaceGetFrequency(String interfaceName);
 	private native int nativeInterfaceGetBitRate(String interfaceName);
+	private native boolean nativeInterfaceIsCableConnected(String interfaceName);
 	
 	/**
 	 * Instantiates a new system interface using the given interface name.
@@ -30,6 +37,26 @@ public class SystemInterface {
 	 */
 	public SystemInterface(String interfaceName) {
 		interfaceName_ = interfaceName;
+	}
+	
+	/**
+	 * Returns a ManagedSystemInterface. Only one ManagedSystemInterface object exists
+	 * per SystemInterface
+	 *
+	 * @return the managed system interface
+	 * @throws NonexistantSystemInterface the nonexistant system interface
+	 */
+	public synchronized ManagedSystemInterface manageSystemInterface() throws NonexistantSystemInterface {
+		if(!exists()) {
+			throw new NonexistantSystemInterface();
+		}
+		if(!managedSystemInterfaces.containsKey(interfaceName_)) {
+			ManagedSystemInterface mObject = new ManagedSystemInterface(interfaceName_);
+			managedSystemInterfaces.put(interfaceName_, mObject);
+			return mObject;
+		} else {
+			return managedSystemInterfaces.get(interfaceName_);
+		}
 	}
 	
 	/**
@@ -157,6 +184,23 @@ public class SystemInterface {
 			throw new InvalidSystemInterface();
 		}
 		return nativeInterfaceGetBitRate(interfaceName_);
+	}
+	
+	/**
+	 * Checks if the cable is connected.
+	 *
+	 * @return true, if the cable is connected
+	 * @throws NonexistantSystemInterface if the network interface does not exist
+	 * @throws InvalidSystemInterface if the network interface is not compatible with this method
+	 */
+	public boolean isCableConnected() throws NonexistantSystemInterface, InvalidSystemInterface {
+		if(!exists()) {
+			throw new NonexistantSystemInterface();
+		}
+		if(isWiFi()) {
+			throw new InvalidSystemInterface();
+		}
+		return nativeInterfaceIsCableConnected(interfaceName_);
 	}
 	
 }

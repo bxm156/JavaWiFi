@@ -1,4 +1,4 @@
-package com.bryanmarty.javawifi;
+package com.bryanmarty.javawifi.exceptions;
 
 public class InvalidSystemInterface extends Exception {
 

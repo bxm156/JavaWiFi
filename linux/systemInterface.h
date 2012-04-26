@@ -79,6 +79,14 @@ JNIEXPORT jfloat JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInte
 JNIEXPORT jint JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceGetBitRate
   (JNIEnv *, jobject, jstring);
 
+/*
+ * Class:     com_bryanmarty_javawifi_SystemInterface
+ * Method:    nativeInterfaceIsCableConnected
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceIsCableConnected
+  (JNIEnv *, jobject, jstring);
+
 #ifdef __cplusplus
 }
 #endif

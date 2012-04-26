@@ -232,3 +232,9 @@ JNIEXPORT jint JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterf
 	return result;
 
 }
+
+JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceIsCableConnected
+  (JNIEnv *, jobject, jstring) {
+	//TODO: Stubbed Method
+	return JNI_TRUE;
+}
