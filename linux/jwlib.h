@@ -58,6 +58,8 @@
 #define PROC_NET_WIRELESS	"/proc/net/wireless"
 #define PROC_NET_DEV		"/proc/net/dev"
 
+const std::string SYS_CLASS_NET = "/sys/class/net";
+
 int jw_parse_proc_interface(char *result, char *buffer, int bufferSize);
 std::vector<std::string> jw_enumate_interfaces(const char *proc_net);
 int iw_sockets_open(void);
@@ -67,5 +69,6 @@ std::string jw_get_nickname(int skfd, const char *interfaceName);
 std::string jw_get_hardware_address(int skfd, const char *interfaceName);
 float jw_get_frequency(int skfd, const char *interfaceName);
 int jw_get_bit_rate(int skfd, const char *interfaceName);
+bool jw_get_carrier(const char *interfaceName);
 
 #endif /* JWLIB_H_ */

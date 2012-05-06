@@ -48,21 +48,6 @@ JNIEXPORT jobjectArray JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nati
 
 	std::vector<std::string> allInterfaces = jw_enumate_interfaces(PROC_NET_DEV);
 
-
-	/*if(!includeWiFi) {
-		std::vector<std::string> allWiFiInterfaces = jw_enumate_interfaces(PROC_NET_WIRELESS);
-
-		std::set<std::string> set_allInterfaces(allInterfaces.begin(), allInterfaces.end());
-		std::set<std::string> set_allWiFiInterfaces(allWiFiInterfaces.begin(),allWiFiInterfaces.end());
-
-		std::vector<std::string> difference;
-
-		std::set_difference(set_allInterfaces.begin(),set_allInterfaces.end(),
-				set_allWiFiInterfaces.begin(), set_allWiFiInterfaces.end(),
-				std::back_inserter(difference));
-		allInterfaces = difference;
-	}*/
-
 	jobjectArray results;
 
 	results = (jobjectArray)	env->NewObjectArray(allInterfaces.size(),
@@ -234,7 +219,19 @@ JNIEXPORT jint JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterf
 }
 
 JNIEXPORT jboolean JNICALL Java_com_bryanmarty_javawifi_SystemInterface_nativeInterfaceIsCableConnected
-  (JNIEnv *, jobject, jstring) {
-	//TODO: Stubbed Method
-	return JNI_TRUE;
+  (JNIEnv * env, jobject obj, jstring interfaceName) {
+
+	const char *iName = env->GetStringUTFChars(interfaceName, NULL);
+		if(iName == NULL) {
+			return NULL;
+		}
+	try {
+		if(jw_get_carrier(iName)) {
+			return JNI_TRUE;
+		}
+	} catch(int e) {
+		jclass exception = env->FindClass("com/bryanmarty/javawifi/exceptions/SystemInterfaceDown");
+		env->ThrowNew(exception,"System Interface must be up");
+	}
+	return JNI_FALSE;
 }

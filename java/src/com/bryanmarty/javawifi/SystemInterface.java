@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import com.bryanmarty.javawifi.exceptions.InvalidSystemInterface;
 import com.bryanmarty.javawifi.exceptions.NonexistantSystemInterface;
+import com.bryanmarty.javawifi.exceptions.SystemInterfaceDown;
 
 public class SystemInterface {
 	
@@ -192,8 +193,9 @@ public class SystemInterface {
 	 * @return true, if the cable is connected
 	 * @throws NonexistantSystemInterface if the network interface does not exist
 	 * @throws InvalidSystemInterface if the network interface is not compatible with this method
+	 * @throws SystemInterfaceDown if the network interface is down, the status cannot be read
 	 */
-	public boolean isCableConnected() throws NonexistantSystemInterface, InvalidSystemInterface {
+	public boolean isCableConnected() throws NonexistantSystemInterface, InvalidSystemInterface, SystemInterfaceDown {
 		if(!exists()) {
 			throw new NonexistantSystemInterface();
 		}

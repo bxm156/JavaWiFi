@@ -11,6 +11,8 @@
 #include <vector>
 #include <string.h>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 std::vector<std::string> jw_enumate_interfaces(const char *proc_net) {
 
@@ -192,4 +194,24 @@ float jw_get_frequency(int skfd, const char *interfaceName) {
 		return ((double)  req.u.freq.m) * pow(10, req.u.freq.e);
 	}
 	return 0;
+}
+
+bool jw_get_carrier(const char *interfaceName) {
+
+	std::string path = SYS_CLASS_NET;
+	path.append("/");
+	path.append(interfaceName);
+	path.append("/carrier");
+	std::ifstream ifs(path.c_str(), std::ifstream::in);
+	char buffer;
+	ifs.get(buffer);
+	ifs.close();
+	if(buffer == NULL) {
+		throw -1;
+	}
+	if(buffer == '1') {
+		return true;
+	} else {
+		return false;
+	}
 }
